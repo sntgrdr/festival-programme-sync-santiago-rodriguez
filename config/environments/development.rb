@@ -46,6 +46,11 @@ Rails.application.configure do
   # Raise an error on page load if there are pending migrations.
   config.active_record.migration_error = :page_load
 
+  # Allow the internal Docker Compose service name so ScreeningSync can reach
+  # the mock API at FESTIVAL_API_URL (http://web:3000) — otherwise Host
+  # Authorization blocks it with a 403, since "web" isn't localhost/.test.
+  config.hosts << "web"
+
   # Highlight code that triggered database queries in logs.
   config.active_record.verbose_query_logs = true
 

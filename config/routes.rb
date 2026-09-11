@@ -8,6 +8,9 @@ Rails.application.routes.draw do
   # The public site's screenings listing (with filter form).
   resources :screenings, only: :index
 
+  # Read-only history of programme sync runs (status, counters, errors).
+  resources :sync_runs, only: :index
+
   # The mock external festival-management API. Treat this as a third party.
   namespace :mock_api do
     resources :screenings, only: :index
