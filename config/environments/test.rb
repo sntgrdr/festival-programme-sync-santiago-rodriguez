@@ -28,6 +28,10 @@ Rails.application.configure do
   # Disable request forgery protection in test environment.
   config.action_controller.allow_forgery_protection = false
 
+  # Jobs are asserted against (have_enqueued_job) rather than actually run
+  # through Sidekiq/Redis in tests.
+  config.active_job.queue_adapter = :test
+
   # Store uploaded files on the local file system in a temporary directory.
   config.active_storage.service = :test
 
