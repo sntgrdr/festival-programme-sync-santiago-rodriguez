@@ -9,6 +9,7 @@ class ScreeningSync
     @created = 0
     @updated = 0
     @cancelled = 0
+    @seen_external_ids = []
   end
 
   def call
@@ -22,7 +23,9 @@ class ScreeningSync
       page += 1
     end
 
-    @run.succeed!(created: @created, updated: @updated, cancelled: @cancelled)
+    deleted = ScreeningDeletion.new(seen_external_ids: @seen_external_ids).call
+
+    @run.succeed!(created: @created, updated: @updated, cancelled: @cancelled, deleted: deleted)
     @run
   rescue StandardError => e
     @run.fail!(e, created: @created, updated: @updated, cancelled: @cancelled)
@@ -58,7 +61,10 @@ class ScreeningSync
     film   = upsert_film(record.fetch("film"))
     venue  = upsert_venue(record.fetch("venue"))
 
-    screening = Screening.find_or_initialize_by(external_id: record.fetch("id"))
+    external_id = record.fetch("id")
+    @seen_external_ids << external_id
+
+    screening = Screening.find_or_initialize_by(external_id: external_id)
     is_new = screening.new_record?
 
     screening.assign_attributes(
