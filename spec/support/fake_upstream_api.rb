@@ -1,7 +1,3 @@
-# Stubs the upstream festival API at the HTTP layer (Faraday's built-in test
-# adapter — no extra gem needed) by serving MockApi::Dataset records paginated
-# the same way the real mock_api controller does. Lets ScreeningSync specs
-# run fast and deterministic, without a live server or network access.
 module FakeUpstreamApi
   def stub_upstream_api(generation: 1, fail_after: nil)
     records     = MockApi::Dataset.records(generation: generation)

@@ -13,9 +13,6 @@ RSpec.describe ScreeningSync do
       expect(Film.count).to eq(12)
       expect(Venue.count).to eq(6)
       expect(run).to be_success
-      # The 20 pre-existing screenings are byte-for-byte identical to what
-      # generation 1 sends for those same ids, so nothing actually changes on
-      # them — only the 40 new ones count as "created".
       expect(run).to have_attributes(screenings_created: 40, screenings_updated: 0)
     end
 
