@@ -15,14 +15,15 @@ RSpec.describe SyncRun do
     it "records success status, finished_at and the counters" do
       run = SyncRun.start!
 
-      run.succeed!(created: 3, updated: 2, cancelled: 1)
+      run.succeed!(created: 3, updated: 2, cancelled: 1, deleted: 1)
 
       expect(run).to be_success
       expect(run.finished_at).to be_present
       expect(run).to have_attributes(
         screenings_created: 3,
         screenings_updated: 2,
-        screenings_cancelled: 1
+        screenings_cancelled: 1,
+        screenings_deleted: 1
       )
     end
   end
